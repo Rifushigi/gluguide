@@ -10,7 +10,7 @@ const foodSchema = new mongoose.Schema({
     category: {
         type: [String],
         required: true,
-        enum: ['Rice', 'Swallow', 'Legumes', 'Others']
+        enum: ['Rice', 'Swallow', 'Legumes','Fruits', 'Others']
     },
     group: {
         type: [String],
