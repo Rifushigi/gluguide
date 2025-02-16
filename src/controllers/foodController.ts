@@ -56,3 +56,40 @@ export const addFood = asyncHandler(async (req: Request, res: Response) => {
 
     res.status(201).json(newFood);
 });
+
+export const updateFood = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    // Validate the request body
+    if (updateData.calories !== undefined && typeof updateData.calories !== 'number') {
+        throw new ValidationError('Invalid food data', {
+            calories: 'Calories must be a number'
+        });
+    }
+    if (updateData.caloriesPerServing !== undefined && typeof updateData.caloriesPerServing !== 'number') {
+        throw new ValidationError('Invalid food data', {
+            caloriesPerServing: 'Calories per serving must be a number'
+        });
+    }
+
+    const food = await Food.findByIdAndUpdate(id, updateData, { new: true });
+    if (!food) {
+        throw new NotFoundError('Food not found');
+    }
+
+    res.json(food);
+});
+
+export const deleteFood = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const food = await Food.findById(id);
+    if (!food) {
+        throw new NotFoundError('Food');
+    }
+
+    await Food.deleteOne({ _id: id });
+
+    res.status(200).json({ message: 'Food item deleted successfully' });
+});
