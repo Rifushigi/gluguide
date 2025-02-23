@@ -9,6 +9,7 @@ import { errorLogger } from './middlewares/errorLogger';
 import { requestLogger } from './middlewares/requestLogger';
 import { seedDatabase } from './config/seedDatabase';
 import { errorHandler } from './middlewares/errorHandler';
+import { notFoundHandler } from './middlewares/notFoundHandler';
 
 dotenv.config();
 
@@ -30,6 +31,10 @@ connectDatabase();
 
 // Seed database
 seedDatabase();
+
+// Handle unmatched routes
+app.use(notFoundHandler);
+
 
 app.use(errorLogger);
 app.use(errorHandler);
