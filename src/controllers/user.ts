@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
 import { UserSignupInput, LoginInput, ApiResponse } from '../types';
-import { asyncHandler } from '@/utils/asyncHandler';
-import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '@/types/errors';
+import { asyncHandler } from '../utils/asyncHandler';
+import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../types/errors';
 
 class UserController {
     // Register new user
