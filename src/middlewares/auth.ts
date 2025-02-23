@@ -1,5 +1,5 @@
 import { JWTError } from '../types/errors';
-import { asyncHandler } from '@/utils/asyncHandler';
+import { asyncHandler } from '../utils/asyncHandler';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
