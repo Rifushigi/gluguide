@@ -67,7 +67,6 @@ const userSchema = new mongoose.Schema({
     },
     bmi: {
         type: Number,
-        required: true
     },
     waistCircumference: {
         type: Number,
@@ -81,7 +80,6 @@ const userSchema = new mongoose.Schema({
     },
     waistToHipRatio: {
         type: Number,
-        required: true
     },
     diabetesType: {
         type: String,
