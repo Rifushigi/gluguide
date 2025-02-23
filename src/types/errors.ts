@@ -28,8 +28,38 @@ export class NotFoundError extends AppError {
     }
 }
 
-// export class UnauthorizedError extends AppError {
-//     constructor(message: string = 'Unauthorized access') {
-//         super(message, 401);
-//     }
-// }
+export class UnauthorizedError extends AppError {
+    constructor(message: string = 'Unauthorized access') {
+        super(message, 401);
+    }
+}
+
+export class ForbiddenError extends AppError {
+    constructor(message: string = 'Forbidden') {
+        super(message, 403);
+    }
+}
+
+export class BadRequestError extends AppError {
+    constructor(message: string = 'Bad request') {
+        super(message, 400);
+    }
+}
+
+export class ConflictError extends AppError {
+    constructor(message: string = 'Conflict') {
+        super(message, 409);
+    }
+}
+
+export class InternalServerError extends AppError {
+    constructor(message: string = 'Internal server error') {
+        super(message, 500);
+    }
+}
+
+export class JWTError extends AppError {
+    constructor(message: string = "Invalid token") {
+        super(message, 401);
+    }
+}
