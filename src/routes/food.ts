@@ -1,14 +1,13 @@
 import express from 'express';
-import { searchFood, getFoodById, getAllFoods, addFood, updateFood, deleteFood } from '../controllers/foodController';
-// import { auth } from '../middleware/auth';
+import FoodController from '../controllers/food';
 
 const router = express.Router();
 
-router.get('/search', searchFood);
-router.get('/:id', getFoodById);
-router.get('/', getAllFoods);
-router.post('/', addFood);
-router.put('/:id', updateFood);
-router.delete('/:id', deleteFood);
+router.get('/search', FoodController.searchFood);
+router.get('/:id', FoodController.getFoodById);
+router.get('/', FoodController.getAllFoods);
+router.post('/', FoodController.addFood);
+router.put('/:id', FoodController.updateFood);
+router.delete('/:id', FoodController.deleteFood);
 
 export default router;
