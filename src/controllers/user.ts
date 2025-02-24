@@ -68,11 +68,18 @@ class UserController {
             { expiresIn: '24h' }
         );
 
+        // Set token in HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
+
         const response: ApiResponse = {
             status: 'success',
             message: 'Login successful',
             data: {
-                token,
                 user: {
                     id: user._id,
                     email: user.email,
