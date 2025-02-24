@@ -1,7 +1,5 @@
 import {foodItems} from './seedData';
 import FoodItem from '../models/Food';
-import { connectDatabase } from '../config/database';
-import { NextFunction } from 'express';
 
 export const seedDatabase = async (): Promise<void> => {
     try {
