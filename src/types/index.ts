@@ -56,19 +56,7 @@ export interface UserSignupInput {
     password: string;
     firstName: string;
     lastName: string;
-    initials: string;
     phoneNumber: string;
-    age: number;
-    sex: 'Male' | 'Female' | 'Other';
-    weight: number;
-    height: number;
-    waistCircumference: number;
-    hipCircumference: number;
-    diabetesType: 'Type 1' | 'Type 2' | 'Gestational' | 'Other';
-    modeOfTreatment: 'Insulin' | 'Oral Medication' | 'Diet Control' | 'Combined';
-    lastFastingBloodSugar: number;
-    lastRandomBloodSugar: number;
-    lastHbA1cLevel: number;
 }
 
 export interface LoginInput {

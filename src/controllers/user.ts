@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-import { UserSignupInput, LoginInput, ApiResponse } from '../types';
+import { UserSignupInput, LoginInput, ApiResponse, IUser } from '../types';
 import { asyncHandler } from '../utils/asyncHandler';
 import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../types/errors';
 
@@ -20,15 +20,6 @@ class UserController {
         // Validate phone number
         if (!/^\d{11,}$/.test(userInput.phoneNumber)) {
             throw new BadRequestError('Invalid phone number format');
-        }
-
-        // Validate measurements
-        if (userInput.weight <= 0 || userInput.height <= 0) {
-            throw new BadRequestError('Invalid weight or height');
-        }
-
-        if (userInput.waistCircumference <= 0 || userInput.hipCircumference <= 0) {
-            throw new BadRequestError('Invalid circumference measurements');
         }
 
         // Create new user
@@ -50,8 +41,6 @@ class UserController {
                 email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                bmi: user.bmi,
-                waistToHipRatio: user.waistToHipRatio
             }
         };
 
@@ -132,7 +121,15 @@ class UserController {
 
     // Update user
     static updateUser = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-        const updates: Partial<UserSignupInput> = req.body;
+        const updates: Partial<IUser> = req.body;
+
+        // Calculate BMI and WHR if weight, height, waistCircumference, and hipCircumference are provided
+        if (updates.weight && updates.height) {
+            updates.bmi = updates.weight / ((updates.height / 100) ** 2);
+        }
+        if (updates.waistCircumference && updates.hipCircumference) {
+            updates.waistToHipRatio = updates.waistCircumference / updates.hipCircumference;
+        }
 
         const user = await User.findByIdAndUpdate(
             req.user?.userId,
