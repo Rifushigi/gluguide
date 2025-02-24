@@ -194,7 +194,7 @@ class UserController {
         const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
         const templatePath = path.join(__dirname, "../views/emailTemplates/email.ejs");
         const htmlContent = await ejs.renderFile(templatePath, {
-            title: "Email Verification",
+            title: "Password Reset Request",
             userName: user?.firstName || "User",
             resetLink: resetLink,
         })
