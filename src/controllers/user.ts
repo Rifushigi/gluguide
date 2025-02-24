@@ -189,14 +189,14 @@ class UserController {
         user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
         await user.save();
 
-        
+
         // Send reset link to user's email
         const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
         const templatePath = path.join(__dirname, "../views/emailTemplates/email.ejs");
         const htmlContent = await ejs.renderFile(templatePath, {
             title: "Email Verification",
             userName: user?.firstName || "User",
-            verificationLink: resetLink,
+            resetLink: resetLink,
         })
         await sendEmail(user.email, 'Password Reset Request', htmlContent);
 
