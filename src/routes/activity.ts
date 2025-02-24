@@ -4,9 +4,9 @@ import { authMiddleware } from '../middlewares/auth'; // You'll need to implemen
 
 const router = Router();
 
-router.post('/activities', authMiddleware, ActivityController.create);
-router.get('/activities', authMiddleware, ActivityController.getUserActivities);
-router.get('/activities/latest', authMiddleware, ActivityController.getLatestActivity);
-router.put('/activities/:id', authMiddleware, ActivityController.updateActivity);
+router.post('/', authMiddleware, ActivityController.create);
+router.get('/', authMiddleware, ActivityController.getUserActivities);
+router.get('/latest', authMiddleware, ActivityController.getLatestActivity);
+router.put('/:id', authMiddleware, ActivityController.updateActivity);
 
 export default router;

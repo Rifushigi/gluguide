@@ -28,13 +28,13 @@ class ActivityController {
 
     // Get user activities
     static getUserActivities = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-        const userId = req.user?.userId; // Assuming you have authentication middleware
+        const userId = req.user?.userId;
         const activities = await Activity.find({ userId })
             .sort({ createdAt: -1 })
             .exec();
 
         if (!activities || activities.length === 0) {
-            throw new NotFoundError('No activity records found');
+            throw new NotFoundError('Activity records');
         }
 
         const response: ApiResponse = {
