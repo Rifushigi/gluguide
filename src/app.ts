@@ -22,11 +22,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 // Routes
-app.use('/', HomeController.home)
 app.use('/api/foods', foodRoutes);
 app.use('/api/dietary', dietaryRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/users', userRoutes);
+app.use('/', HomeController.home)
 
 // Connect to database
 connectDatabase();
