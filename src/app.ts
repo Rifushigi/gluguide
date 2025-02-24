@@ -5,12 +5,11 @@ import foodRoutes from './routes/food';
 import dietaryRoutes from './routes/dietary';
 import activityRoutes from './routes/activity';
 import userRoutes from './routes/user';
+import homeRoutes from './routes/app';
 import { errorLogger } from './middlewares/errorLogger';
 import { requestLogger } from './middlewares/requestLogger';
 import { errorHandler } from './middlewares/errorHandler';
 import { notFoundHandler } from './middlewares/notFoundHandler';
-import HomeController from './controllers/app';
-
 dotenv.config();
 
 const app = express();
@@ -25,7 +24,7 @@ app.use('/api/foods', foodRoutes);
 app.use('/api/dietary', dietaryRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/users', userRoutes);
-app.use('/', HomeController.home)
+app.use('/', homeRoutes)
 
 // Connect to database
 connectDatabase();
