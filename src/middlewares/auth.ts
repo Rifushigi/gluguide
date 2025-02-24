@@ -20,13 +20,13 @@ export const authMiddleware = asyncHandler(async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
-        const token = req.header('Authorization')?.replace('Bearer ', '');
+    const token = req.cookies?.token;
 
-        if (!token) throw new JWTError('No token provided');
+    if (!token) throw new JWTError('No token provided');
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
-        if (!decoded) throw new JWTError('Invalid token');
-        req.user = decoded;
-        next();
+    if (!decoded) throw new JWTError('Invalid token');
+    req.user = decoded;
+    next();
 });
