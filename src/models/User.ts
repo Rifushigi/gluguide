@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        match: /^\d{10,}$/
+        match: /^\d{11,}$/
     },
     age: {
         type: Number,
