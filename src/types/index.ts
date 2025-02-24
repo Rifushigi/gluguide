@@ -32,7 +32,6 @@ export interface IUser {
     password: string;
     firstName: string;
     lastName: string;
-    initials: string;
     phoneNumber: string;
     age: number;
     sex: 'Male' | 'Female' | 'Other';
