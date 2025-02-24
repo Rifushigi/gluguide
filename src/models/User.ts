@@ -32,12 +32,6 @@ const userSchema = new mongoose.Schema({
     },
 
     // Medical/Patient fields
-    initials: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: 10
-    },
     phoneNumber: {
         type: String,
         required: true,
@@ -46,23 +40,19 @@ const userSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true,
         min: 0,
         max: 150
     },
     sex: {
         type: String,
-        required: true,
         enum: ['Male', 'Female', 'Other']
     },
     weight: {
         type: Number,
-        required: true,
         min: 0
     },
     height: {
         type: Number,
-        required: true,
         min: 0
     },
     bmi: {
@@ -70,12 +60,10 @@ const userSchema = new mongoose.Schema({
     },
     waistCircumference: {
         type: Number,
-        required: true,
         min: 0
     },
     hipCircumference: {
         type: Number,
-        required: true,
         min: 0
     },
     waistToHipRatio: {
@@ -83,27 +71,22 @@ const userSchema = new mongoose.Schema({
     },
     diabetesType: {
         type: String,
-        required: true,
         enum: ['Type 1', 'Type 2', 'Gestational', 'Other']
     },
     modeOfTreatment: {
         type: String,
-        required: true,
         enum: ['Insulin', 'Oral Medication', 'Diet Control', 'Combined']
     },
     lastFastingBloodSugar: {
         type: Number,
-        required: true,
         min: 0
     },
     lastRandomBloodSugar: {
         type: Number,
-        required: true,
         min: 0
     },
     lastHbA1cLevel: {
         type: Number,
-        required: true,
         min: 0,
         max: 20
     }
