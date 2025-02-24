@@ -46,6 +46,8 @@ export interface IUser {
     lastFastingBloodSugar: number;
     lastRandomBloodSugar: number;
     lastHbA1cLevel: number;
+    resetPasswordToken?: string;
+    resetPasswordExpires?: number;
     createdAt: Date;
     updatedAt: Date;
 }
