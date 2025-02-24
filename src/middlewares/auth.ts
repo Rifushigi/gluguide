@@ -20,7 +20,7 @@ export const authMiddleware = asyncHandler(async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
-    const token = req.cookies?.token;
+    const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) throw new JWTError('No token provided');
 
