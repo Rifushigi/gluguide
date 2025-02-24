@@ -7,7 +7,6 @@ import activityRoutes from './routes/activity';
 import userRoutes from './routes/user';
 import { errorLogger } from './middlewares/errorLogger';
 import { requestLogger } from './middlewares/requestLogger';
-import { seedDatabase } from './config/seedDatabase';
 import { errorHandler } from './middlewares/errorHandler';
 import { notFoundHandler } from './middlewares/notFoundHandler';
 import HomeController from './controllers/app';
@@ -30,9 +29,6 @@ app.use('/', HomeController.home)
 
 // Connect to database
 connectDatabase();
-
-// Seed database
-seedDatabase();
 
 // Handle unmatched routes
 app.use(notFoundHandler);
