@@ -2,9 +2,13 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import { sendEmail } from '../config/email';
 import { UserSignupInput, LoginInput, ApiResponse, IUser } from '../types';
 import { asyncHandler } from '../utils/asyncHandler';
-import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../types/errors';
+import { BadRequestError, ConflictError, NotFoundError, UnauthorisedError } from '../types/errors';
+import path from 'path';
+import ejs from 'ejs';
 
 class UserController {
     // Register new user
@@ -55,11 +59,11 @@ class UserController {
         const user = await User.findOne({
             $or: [{ email: email }, { phoneNumber: phoneNumber }]
         });
-        if (!user) throw new UnauthorizedError('Invalid credentials');
+        if (!user) throw new UnauthorisedError('Invalid credentials');
 
         // Check password
         const isMatch = await user.comparePassword(password);
-        if (!isMatch) throw new UnauthorizedError('Invalid credentials');
+        if (!isMatch) throw new UnauthorisedError('Invalid credentials');
 
         // Generate token
         const token = jwt.sign(
@@ -168,17 +172,64 @@ class UserController {
         res.json(response);
     });
 
-    // Reset password
-    static resetPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-        const { email, newPassword } = req.body;
+    // Request password reset
+    static requestPasswordReset = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+        const { email } = req.body;
 
         // Find user by email
         const user = await User.findOne({ email });
-        if (!user) throw new NotFoundError('User not found');
+        if (!user) throw new NotFoundError('User');
+
+        // Generate reset token
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+        // Save reset token and expiration time to user document
+        user.resetPasswordToken = resetTokenHash;
+        user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
+        await user.save();
+
+        
+        // Send reset link to user's email
+        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+        const templatePath = path.join(__dirname, "../views/emailTemplates/email.ejs");
+        const htmlContent = await ejs.renderFile(templatePath, {
+            title: "Email Verification",
+            userName: user?.firstName || "User",
+            verificationLink: resetLink,
+        })
+        await sendEmail(user.email, 'Password Reset Request', htmlContent);
+
+        const response: ApiResponse = {
+            status: 'success',
+            message: 'Password reset link sent to email',
+            data: null
+        };
+
+        res.json(response);
+    });
+
+    // Reset password using token
+    static resetPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+        const { token, newPassword } = req.body;
+
+        // Hash the token
+        const resetTokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
+        // Find user by reset token and check if token is not expired
+        const user = await User.findOne({
+            resetPasswordToken: resetTokenHash,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+        if (!user) throw new UnauthorisedError('Invalid or expired token');
 
         // Hash new password
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(newPassword, salt);
+
+        // Clear reset token fields
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
 
         // Save updated user
         await user.save();
