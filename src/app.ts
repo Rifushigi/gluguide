@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { connectDatabase } from './config/database';
 import foodRoutes from './routes/food';
 import dietaryRoutes from './routes/dietary';
@@ -15,6 +16,7 @@ dotenv.config();
 const app = express();
 
 // Middlewares
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
