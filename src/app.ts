@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { connectDatabase } from './config/database';
+import { corsOptions } from './config/cors';
 import foodRoutes from './routes/food';
 import dietaryRoutes from './routes/dietary';
 import activityRoutes from './routes/activity';
@@ -11,6 +12,7 @@ import { errorLogger } from './middlewares/errorLogger';
 import { requestLogger } from './middlewares/requestLogger';
 import { errorHandler } from './middlewares/errorHandler';
 import { notFoundHandler } from './middlewares/notFoundHandler';
+
 dotenv.config();
 
 const app = express();
