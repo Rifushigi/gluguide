@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset | GluGuide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 40px 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-weight: 400;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .body {
+            padding: 40px;
+            color: #333;
+        }
+
+        .reset-container {
+            background-color: #f0f9ff;
+            border-radius: 12px;
+            padding: 30px 20px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #bfdbfe;
+        }
+
+        .reset-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right,
+                    rgba(30, 58, 138, 0.05),
+                    rgba(59, 130, 246, 0.05));
+            animation: rotate 20s linear infinite;
+            z-index: 1;
+        }
+
+        .reset-link {
+            position: relative;
+            z-index: 2;
+        }
+
+        .reset-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .reset-button:hover {
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .alternate-link {
+            margin-top: 20px;
+            font-size: 14px;
+            word-break: break-all;
+            color: #3b82f6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f9ff;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">GLUGUIDE</div>
+            <h1>Password Reset</h1>
+        </div>
+        <div class="body">
+            <p>Hello ${userName},</p>
+            <p>We received a request to reset your password. Click the button below to create a new password:</p>
+            <div class="reset-container">
+                <div class="reset-link">
+                    <a href="${resetLink}" class="reset-button">Reset Password</a>
+                </div>
+                <div class="alternate-link">
+                    <p>Or copy this link into your browser:</p>
+                    <a href="<%- {resetLink}%>">${resetLink}</a>
+                </div>
+            </div>
+            <p>This link will expire in 30 minutes. Please do not share this link with anyone.</p>
+            <p>If you didn't request this password reset, please ignore this email or contact our support team if you
+                have any concerns.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; ${new Date().getFullYear()} GluGuide. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>
