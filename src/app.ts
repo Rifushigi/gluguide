@@ -10,6 +10,7 @@ import { requestLogger } from './middlewares/requestLogger';
 import { seedDatabase } from './config/seedDatabase';
 import { errorHandler } from './middlewares/errorHandler';
 import { notFoundHandler } from './middlewares/notFoundHandler';
+import HomeController from './controllers/app';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 // Routes
+app.use('/', HomeController.home)
 app.use('/api/foods', foodRoutes);
 app.use('/api/dietary', dietaryRoutes);
 app.use('/api/activities', activityRoutes);
