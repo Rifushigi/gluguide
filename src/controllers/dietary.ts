@@ -2,13 +2,18 @@ import { Request, Response } from 'express';
 import { DietaryAssessment } from '../models/Dietary';
 import { FrequencyOption, IDietaryResponse, ApiResponse } from '../types';
 import { asyncHandler } from '../utils/asyncHandler';
-import { NotFoundError, InternalServerError } from '../types/errors';
+import { NotFoundError, InternalServerError, BadRequestError } from '../types/errors';
 
 class DietaryController {
     // Create dietary assessment
     static create = asyncHandler(async (req: Request, res: Response): Promise<void> => {
         const dietaryData: IDietaryResponse = req.body;
         const userId = req.user?.userId;
+
+        // Validate userId
+        if (dietaryData.userId !== userId) {
+            throw new BadRequestError('User ID does not match the authenticated user');
+        }
 
         const assessment = new DietaryAssessment({
             ...dietaryData,
@@ -37,7 +42,7 @@ class DietaryController {
             throw new NotFoundError('No dietary assessments found');
         }
 
-        const response: ApiResponse= {
+        const response: ApiResponse = {
             status: 'success',
             message: 'Dietary assessments retrieved successfully',
             data: assessments
@@ -57,7 +62,7 @@ class DietaryController {
             throw new NotFoundError('No dietary assessment found');
         }
 
-        const response: ApiResponse= {
+        const response: ApiResponse = {
             status: 'success',
             message: 'Latest dietary assessment retrieved successfully',
             data: assessment
