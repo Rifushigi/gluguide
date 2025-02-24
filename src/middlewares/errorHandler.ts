@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError, ValidationError, UnauthorizedError } from '../types/errors';
+import { AppError, ValidationError, UnauthorisedError } from '../types/errors';
 import { logger } from '../config/logger';
 import mongoose from 'mongoose';
 
